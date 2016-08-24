@@ -20,10 +20,10 @@
 	}
 
 	function play(audioBuffers) {
+		const pianoBuffer = audioBuffers[0];
+		const irBuffer = audioBuffers[1];
 		const piano = context.createBufferSource();
-		const impulse = context.createBufferSource();
 
-		piano.buffer = audioBuffers[0];
-		impulse.buffer = audioBuffers[1];
+		piano.buffer = pianoBuffer;
 	}
 }());
