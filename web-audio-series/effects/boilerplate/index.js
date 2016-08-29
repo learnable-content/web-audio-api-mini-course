@@ -20,10 +20,17 @@
 	}
 
 	function play(audioBuffers) {
-		const pianoBuffer = audioBuffers[0];
-		const irBuffer = audioBuffers[1];
-		const piano = context.createBufferSource();
+		const [ pianoBuffer, irBuffer ] = audioBuffers;
+		const pianoNode = context.createBufferSource();
 
-		piano.buffer = pianoBuffer;
+		pianoNode.buffer = pianoBuffer;
+
+		connectNodes(pianoNode);
+
+		pianoNode.start();
+	}
+
+	function connectNodes(firstNode, secondNode = context.destination) {
+		firstNode.connect(secondNode);
 	}
 }());
