@@ -1,7 +1,8 @@
 # Code For James Wright's Series
 
-## Folders
+## You Ain't Heard Nothing Yet! (Web Audio API Series)
 
-### `web-audio-api`
+Check out the below branches with `git checkout` for the code relating to each screencast:
 
-Boilerplate code and complete examples for You Ain't Heard Nothing Yet!
+* `web-audio/intro` - [Episode 1 - An Introduction to the Web Audio API](https://www.sitepoint.com/premium/screencasts/an-introduction-to-the-web-audio-api)
+* `web-audio/effects` - Episode 2 - Effect Filters
