@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 
-	const URL = 'https://raw.githubusercontent.com/learnable-content/jamesseanwright/master/web-audio-series/files/yodel.mp3';
+	const URL = 'https://raw.githubusercontent.com/learnable-content/jamesseanwright/master/files/web-audio-series/yodel.mp3';
 	const context = new AudioContext();
 
 	window.fetch(URL)
