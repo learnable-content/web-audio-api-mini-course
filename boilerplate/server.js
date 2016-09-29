@@ -12,26 +12,34 @@ function respond(req, res) {
     switch (req.url) {
         case '/':
         case '/index.html':
-            res.writeHead(200, {
-                'Content-Type': 'text/html'
-            });
-
-            fs.createReadStream('index.html').pipe(res);
+            serveFile(res, 'index.html', 'text/html');
             break;
 
         case '/index.js':
-            res.writeHead(200, {
-                'Content-Type': 'application/javascript'
-            });
+            serveFile(res, 'index.js', 'application/javascript');
+            break;
 
-            fs.createReadStream('index.js').pipe(res);
+        case '/index.css':
+            serveFile(res, 'index.css', 'text/css');
             break;
 
         default:
-            res.writeHead(404, {
-                'Content-Type': 'text/plain'
-            });
-
-            res.end('Not Found', 'utf-8');
+            notFound(res);
     }
+}
+
+function serveFile(res, filename, contentType) {
+    res.writeHead(200, {
+        'Content-Type': contentType
+    });
+
+    return fs.createReadStream(filename).pipe(res);
+}
+
+function notFound(res) {
+    res.writeHead(404, {
+        'Content-Type': 'text/plain'
+    });
+
+    res.end('Not Found', 'utf-8');
 }
