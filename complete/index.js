@@ -63,6 +63,8 @@
 
         convolverNode.buffer = irBuffer;
 
+        // TODO: use AnalyserNode to render frequencies to graph
+
         connectNodes(
             sourceNode,
             biquadFilterNode,
