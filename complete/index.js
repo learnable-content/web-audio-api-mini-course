@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const IR_URL = 'https://raw.githubusercontent.com/learnable-content/jamesseanwright/master/files/web-audio-series/narrow-bumpy-space-ir.mp3';
+    const IR_URL = 'https://raw.githubusercontent.com/learnable-content/jamesseanwright/master/files/web-audio-series/small-drum-room-ir.mp3';
 
     const context = new AudioContext();
     const recordButton = document.querySelector('.record');
