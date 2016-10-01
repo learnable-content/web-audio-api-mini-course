@@ -39,6 +39,32 @@
     }
 
     function play(audioBuffer) {
-        console.log(audioBuffer);
+        const sourceNode = context.createBufferSource();
+        const biquadFilterNode = context.createBiquadFilter();
+
+        sourceNode.buffer = audioBuffer;
+        sourceNode.detune.value = -300;
+
+        biquadFilterNode.type = 'highpass';
+        biquadFilterNode.frequency.value = 600;
+
+        connectNodes(
+            sourceNode,
+            biquadFilterNode,
+            context.destination
+        );
+
+        sourceNode.start();
+    }
+
+    function connectNodes(firstNode, ...remainingNodes) {
+        const secondNode = remainingNodes[0];
+
+        if (!firstNode || !secondNode) {
+            return;
+        }
+
+        firstNode.connect(secondNode);
+        connectNodes(...remainingNodes);
     }
 }());
