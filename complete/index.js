@@ -1,18 +1,31 @@
 (function () {
     'use strict';
 
+    const IR_URL = 'https://raw.githubusercontent.com/learnable-content/jamesseanwright/master/files/web-audio-series/narrow-bumpy-space-ir.mp3';
+
     const context = new AudioContext();
     const recordButton = document.querySelector('.record');
 
-    navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(onStreamReady);
+    const initialPromises = [
+        fetchAsArrayBuffer(IR_URL),
+        navigator.mediaDevices.getUserMedia({ audio: true })
+    ];
 
-    function onStreamReady(mediaStream) {
+    Promise.all(initialPromises)
+        .then(onReady);
+
+    function onReady(responses) {
+        const [ irArrayBuffer, mediaStream ] = responses;
+
         recordButton.onclick = () => {
             record(mediaStream)
                 .then(data => new Blob(data))
-                .then(convertToArrayBuffer)
-                .then(arrayBuffer => context.decodeAudioData(arrayBuffer))
+                .then(blob => URL.createObjectURL(blob))
+                .then(fetchAsArrayBuffer)
+                .then(arrayBuffer => Promise.all([
+                    context.decodeAudioData(arrayBuffer),
+                    context.decodeAudioData(irArrayBuffer)
+                ]))
                 .then(play);
         }
     }
@@ -31,26 +44,29 @@
         });        
     }
 
-    function convertToArrayBuffer(blob) {
-        const url = URL.createObjectURL(blob);
-
+    function fetchAsArrayBuffer(url) {
         return fetch(url)
             .then(response => response.arrayBuffer());
     }
 
-    function play(audioBuffer) {
+    function play(buffers) {
+        const [ sourceBuffer, irBuffer ] = buffers;
         const sourceNode = context.createBufferSource();
         const biquadFilterNode = context.createBiquadFilter();
+        const convolverNode = context.createConvolver();
 
-        sourceNode.buffer = audioBuffer;
-        sourceNode.detune.value = -300;
+        sourceNode.buffer = sourceBuffer;
+        sourceNode.detune.value = -350;
 
         biquadFilterNode.type = 'highpass';
-        biquadFilterNode.frequency.value = 600;
+        biquadFilterNode.frequency.value = 800;
+
+        convolverNode.buffer = irBuffer;
 
         connectNodes(
             sourceNode,
             biquadFilterNode,
+            convolverNode,
             context.destination
         );
 
