@@ -15,7 +15,7 @@ Provided by archive.org member [beebopbeedoobi](https://archive.org/details/@bee
 Provided by archive.org member [revolution_void](https://archive.org/details/@revolution_void)
 
 
-## Narrow Bumpy Space IR (`narrow-bumpy-space-ir.mp3`)
+## Small Drum Room IR (`small-drum-room-ir.mp3`)
 
 Provided by [Voxengo](http://www.voxengo.com/)
 
