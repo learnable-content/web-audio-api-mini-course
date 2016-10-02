@@ -41,7 +41,7 @@
 
             recordButton.textContent = 'Stop';
             recordButton.onclick = () => mediaRecorder.stop();
-        });        
+        });
     }
 
     function fetchAsArrayBuffer(url) {
@@ -62,8 +62,6 @@
         biquadFilterNode.frequency.value = 800;
 
         convolverNode.buffer = irBuffer;
-
-        // TODO: use AnalyserNode to render frequencies to graph
 
         connectNodes(
             sourceNode,
