@@ -27,7 +27,7 @@
                     context.decodeAudioData(irArrayBuffer)
                 ]))
                 .then(play);
-        }
+        };
     }
 
     function record(mediaStream) {
@@ -39,7 +39,7 @@
             mediaRecorder.start();
             mediaRecorder.onstop = () => resolve(data);
 
-            recordButton.textContent = 'Stop';
+            recordButton.textContent = 'Play';
             recordButton.onclick = () => mediaRecorder.stop();
         });
     }
