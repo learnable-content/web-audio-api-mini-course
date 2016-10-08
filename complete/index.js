@@ -65,8 +65,8 @@
 
         connectNodes(
             sourceNode,
-            biquadFilterNode,
             convolverNode,
+            biquadFilterNode,
             context.destination
         );
 

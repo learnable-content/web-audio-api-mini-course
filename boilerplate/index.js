@@ -18,8 +18,8 @@
 
         recordButton.onclick = () => {
             record();
-        }
-    };
+        };
+    }
 
     function record(mediaStream) {
         recordButton.textContent = 'Play';

@@ -19,10 +19,6 @@ function respond(req, res) {
             serveFile(res, 'index.js', 'application/javascript');
             break;
 
-        case '/index.css':
-            serveFile(res, 'index.css', 'text/css');
-            break;
-
         default:
             notFound(res);
     }
