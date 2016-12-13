@@ -6,7 +6,7 @@ Check out the below branches with `git checkout` for the code relating to each s
 
 * `web-audio/intro` - [Episode 1 - An Introduction to the Web Audio API](https://www.sitepoint.com/premium/screencasts/an-introduction-to-the-web-audio-api)
 * `web-audio/effects` - [Episode 2 - Audio Effects on the Web](https://www.sitepoint.com/premium/screencasts/audio-effects-in-the-web)
-* `web-audio/webrtc` - Episode 3 - Processing WebRTC Data
+* `web-audio/webrtc` - [Episode 3 - Processing WebRTC Data](https://www.sitepoint.com/premium/screencasts/processing-mediarecorder-data)
 
 
 ### Files
