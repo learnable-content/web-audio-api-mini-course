@@ -4,76 +4,84 @@
 	class Instrument {
 		constructor(audioContext) {
 			this.audioContext = audioContext;
-			this.oscillator = audioContext.createOscillator();
-			this.gainNode = audioContext.createGain();
-			this.oscillator.frequency.value = 0;
-			this.endNode = this.gainNode;
-
-			this.oscillator.connect(this.gainNode);
-		}
-
-		start() {
-			this.oscillator.start();
-		}
-
-		stop() {
-			this.oscillator.stop();
 		}
 
 		enqueue() {
 			throw new Error('Enqueue not implemented!');
-		}
-
-		enqueueRest(startTime) {
-			this.oscillator.frequency.setValueAtTime(startTime, 0);
-		}
-
-		connect(node) {
-			this.endNode.connect(node);
 		}
 	}
 
 	class KickDrum extends Instrument {
 		constructor(audioContext) {
 			super(audioContext);
-
-			this.oscillator.type = 'triangle';
 		}
 
 		enqueue(startTime) {
 			const { currentTime } = this.audioContext;
 			const time = currentTime + startTime;
+			const oscillator = this.audioContext.createOscillator();
+			const gainNode = this.audioContext.createGain();
 
-			this.oscillator.frequency.setValueAtTime(15, time);
-			this.gainNode.gain.setValueAtTime(7, time);
-			this.gainNode.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+			oscillator.type = 'triangle';
+			oscillator.frequency.value = 15;
+			gainNode.gain.setValueAtTime(7, time);
+			gainNode.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+
+			oscillator.connect(gainNode);
+			gainNode.connect(this.audioContext.destination);
+			oscillator.start(time);
 		}
 	}
 
 	class Bass extends Instrument {
 		constructor(audioContext) {
 			super(audioContext);
-
-			this.oscillator.type = 'triangle';
 		}
 
 		enqueue(startTime, frequency) {
 			const { currentTime } = this.audioContext;
 			const time = currentTime + startTime;
+			const oscillator = this.audioContext.createOscillator();
+			const gainNode = this.audioContext.createGain();
 
-			this.oscillator.frequency.setValueAtTime(frequency, time);
-			this.gainNode.gain.setValueAtTime(0.4, time);
-			this.gainNode.gain.exponentialRampToValueAtTime(0.001, time + 1);
+			oscillator.type = 'triangle';
+			oscillator.frequency.value = frequency;
+			gainNode.gain.setValueAtTime(0.4, time);
+			gainNode.gain.exponentialRampToValueAtTime(0.001, time + 1);
+
+			oscillator.connect(gainNode);
+			gainNode.connect(this.audioContext.destination);
+			oscillator.start(time);
+		}
+	}
+
+	class Lead extends Instrument {
+		constructor(audioContext) {
+			super(audioContext);
+		}
+
+		enqueue(startTime, frequency) {
+			const { currentTime } = this.audioContext;
+			const time = currentTime + startTime;
+			const oscillator = this.audioContext.createOscillator();
+			const gainNode = this.audioContext.createGain();
+
+			oscillator.type = 'square';
+			oscillator.frequency.value = frequency;
+			gainNode.gain.setValueAtTime(0.1, time);
+
+			oscillator.connect(gainNode);
+			gainNode.connect(this.audioContext.destination);
+			oscillator.start(time);
+			oscillator.stop(time + 0.1);
 		}
 	}
 
 	const audioContext = new AudioContext();
-	// const lead = createOscillator('square');
-	// const bass = createOscillator('triangle');
-	// const bassDrum = createBassDrum();
 
 	const kickDrum = new KickDrum(audioContext);
 	const bass = new Bass(audioContext);
+	const lead = new Lead(audioContext);
 
 	kickDrum.enqueue(0);
 	kickDrum.enqueue(0.5);
@@ -109,37 +117,32 @@
 	bass.enqueue(7.25, 130.81);
 	bass.enqueue(7.75, 123.47);
 
-
-	kickDrum.connect(audioContext.destination);
-	bass.connect(audioContext.destination);
-
-	kickDrum.start();
-	bass.start();
-
-	// enqueueFrequency(lead, 392, 0);
-	// enqueueFrequency(lead, 0, 0.23);
-	// enqueueFrequency(lead, 392, 0.25);
-	// enqueueFrequency(lead, 0, 0.48);
-	// enqueueFrequency(lead, 392, 0.5);
-	// enqueueFrequency(lead, 0, 0.63);
-	// enqueueFrequency(lead, 392, 0.65);
-	// enqueueFrequency(lead, 0, 0.85);
-	// enqueueFrequency(lead, 392, 0.87);
-	// enqueueFrequency(lead, 0, 1.09);
-	// enqueueFrequency(lead, 392, 1.1);
-	// enqueueFrequency(lead, 0, 1.26);
-	// enqueueFrequency(lead, 440, 1.28);
-	// enqueueFrequency(lead, 0, 1.48);
-	// enqueueFrequency(lead, 493.88, 1.5);
-	// enqueueFrequency(lead, 0, 2);
-
-	function createOscillator(type) {
-		const oscillatorNode = audioContext.createOscillator();
-		oscillatorNode.type = type;
-		return oscillatorNode;
-	}
-
-	function enqueueFrequency(oscillatorNode, frequency, time) {
-		oscillatorNode.frequency.setValueAtTime(frequency, audioContext.currentTime + time);
-	}
+	lead.enqueue(0, 392);
+	lead.enqueue(0.5, 392);
+	lead.enqueue(0.75, 392);
+	lead.enqueue(0.9, 392);
+	lead.enqueue(1.1, 392);
+	lead.enqueue(1.25, 392);
+	lead.enqueue(1.5, 440);
+	lead.enqueue(1.75, 493.88);
+	lead.enqueue(2, 392);
+	lead.enqueue(2.5, 392);
+	lead.enqueue(2.75, 392);
+	lead.enqueue(2.9, 392);
+	lead.enqueue(3.1, 392);
+	lead.enqueue(3.25, 392);
+	lead.enqueue(3.5, 440);
+	lead.enqueue(3.75, 493.88);
+	lead.enqueue(4, 392);
+	lead.enqueue(4.5, 392);
+	lead.enqueue(4.75, 392);
+	lead.enqueue(4.9, 392);
+	lead.enqueue(5.1, 392);
+	lead.enqueue(5.25, 392);
+	lead.enqueue(5.5, 440);
+	lead.enqueue(5.75, 493.88);
+	lead.enqueue(6, 523.25);
+	lead.enqueue(6.5, 493.88);
+	lead.enqueue(7, 440);
+	lead.enqueue(7.5, 493.88);
 }());
