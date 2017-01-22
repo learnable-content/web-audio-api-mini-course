@@ -5,7 +5,11 @@
 		constructor(audioContext) {
 			this.audioContext = audioContext;
 			this.oscillator = audioContext.createOscillator();
+			this.gainNode = audioContext.createGain();
 			this.oscillator.frequency.value = 0;
+			this.endNode = this.gainNode;
+
+			this.oscillator.connect(this.gainNode);
 		}
 
 		start() {
@@ -20,6 +24,10 @@
 			throw new Error('Enqueue not implemented!');
 		}
 
+		enqueueRest(startTime) {
+			this.oscillator.frequency.setValueAtTime(startTime, 0);
+		}
+
 		connect(node) {
 			this.endNode.connect(node);
 		}
@@ -29,21 +37,33 @@
 		constructor(audioContext) {
 			super(audioContext);
 
-			const gainNode = audioContext.createGain();
-
 			this.oscillator.type = 'triangle';
-			this.oscillator.connect(gainNode);
-
-			this.gainNode = gainNode;
-			this.endNode = gainNode;
 		}
 
 		enqueue(startTime) {
 			const { currentTime } = this.audioContext;
+			const time = currentTime + startTime;
 
-			this.oscillator.frequency.setValueAtTime(15, currentTime + startTime);
-			this.gainNode.gain.setValueAtTime(7, currentTime + startTime);
-			this.gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + startTime + 0.3);
+			this.oscillator.frequency.setValueAtTime(15, time);
+			this.gainNode.gain.setValueAtTime(7, time);
+			this.gainNode.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+		}
+	}
+
+	class Bass extends Instrument {
+		constructor(audioContext) {
+			super(audioContext);
+
+			this.oscillator.type = 'triangle';
+		}
+
+		enqueue(startTime, frequency) {
+			const { currentTime } = this.audioContext;
+			const time = currentTime + startTime;
+
+			this.oscillator.frequency.setValueAtTime(frequency, time);
+			this.gainNode.gain.setValueAtTime(0.4, time);
+			this.gainNode.gain.exponentialRampToValueAtTime(0.001, time + 1);
 		}
 	}
 
@@ -53,6 +73,7 @@
 	// const bassDrum = createBassDrum();
 
 	const kickDrum = new KickDrum(audioContext);
+	const bass = new Bass(audioContext);
 
 	kickDrum.enqueue(0);
 	kickDrum.enqueue(0.5);
@@ -71,10 +92,29 @@
 	kickDrum.enqueue(7);
 	kickDrum.enqueue(7.5);
 
+	bass.enqueue(0, 98);
+	bass.enqueue(0.25, 98);
+	bass.enqueue(1.25, 130.81);
+	bass.enqueue(1.75, 123.47);
+	bass.enqueue(2, 98);
+	bass.enqueue(2.25, 98);
+	bass.enqueue(3.25, 130.81);
+	bass.enqueue(3.75, 123.47);
+	bass.enqueue(4, 130.81);
+	bass.enqueue(4.25, 130.81);
+	bass.enqueue(5.25, 174.61);
+	bass.enqueue(5.75, 164.81);
+	bass.enqueue(6, 130.81);
+	bass.enqueue(6.25, 130.81);
+	bass.enqueue(7.25, 130.81);
+	bass.enqueue(7.75, 123.47);
+
 
 	kickDrum.connect(audioContext.destination);
+	bass.connect(audioContext.destination);
 
 	kickDrum.start();
+	bass.start();
 
 	// enqueueFrequency(lead, 392, 0);
 	// enqueueFrequency(lead, 0, 0.23);
