@@ -24,14 +24,17 @@
 		const time = currentTime + startTime;
 		const oscillator = audioContext.createOscillator();
 		const gainNode = audioContext.createGain();
+		const pannerNode = audioContext.createStereoPanner();
 
 		oscillator.type = 'triangle';
 		oscillator.frequency.value = frequency;
 		gainNode.gain.setValueAtTime(0.4, time);
 		gainNode.gain.exponentialRampToValueAtTime(0.001, time + 1);
+		pannerNode.pan.value = -0.3;
 
 		oscillator.connect(gainNode);
-		gainNode.connect(audioContext.destination);
+		gainNode.connect(pannerNode);
+		pannerNode.connect(audioContext.destination);
 		oscillator.start(time);
 	}
 
@@ -40,15 +43,18 @@
 		const time = currentTime + startTime;
 		const oscillator = audioContext.createOscillator();
 		const gainNode = audioContext.createGain();
+		const pannerNode = audioContext.createStereoPanner();
 
-		oscillator.type = 'square';
+		oscillator.type = 'sine';
 		oscillator.frequency.value = frequency;
-		gainNode.gain.setValueAtTime(0.1, time);
+		gainNode.gain.value = 0.1;
+		pannerNode.pan.value = 0.3;
 
 		oscillator.connect(gainNode);
-		gainNode.connect(audioContext.destination);
+		gainNode.connect(pannerNode);
+		pannerNode.connect(audioContext.destination);
 		oscillator.start(time);
-		oscillator.stop(time + 0.1);
+		oscillator.stop(time + 0.15);
 	}
 
 	const kickSequence = [
