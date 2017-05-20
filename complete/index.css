@@ -1,0 +1,18 @@
+.keyboard {
+    position: relative;
+}
+
+.keyboard__key {
+    width: 24px;
+    height: 250px;
+    background: white;
+    border: 1px solid black;
+}
+
+.keyboard__key--sharp {
+    height: 150px;
+    width: 16px;
+    margin-left: -8px;
+    position: absolute;
+    background: black;
+}
