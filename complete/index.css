@@ -1,9 +1,11 @@
 .keyboard {
     position: relative;
+    width: 80%;
+    max-width: 495px;
 }
 
 .keyboard__key {
-    width: 24px;
+    width: 12.5%;
     height: 250px;
     background: white;
     border: 1px solid black;
@@ -11,8 +13,8 @@
 
 .keyboard__key--sharp {
     height: 150px;
-    width: 16px;
-    margin-left: -8px;
+    width: 7%;
+    margin-left: -3.5%;
     position: absolute;
     background: black;
 }

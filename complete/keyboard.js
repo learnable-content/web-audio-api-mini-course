@@ -2,6 +2,7 @@
     'use strict';
 
     const SHARP_MODIFIER = 'keyboard__key--sharp';
+    const DEFAULT_OCTAVE = 4;
 
     const notes = [
 		{ note: 'C', frequency: '16.35' },
@@ -20,18 +21,40 @@
 
     class Keyboard {
         constructor(targetElement, keyTemplate) {
+            this.context = new AudioContext();
             this.targetElement = targetElement;
             this.keyTemplate = keyTemplate.content.firstElementChild;
+            this.octave = DEFAULT_OCTAVE;
         }
 
         render() {
             for (let { note, frequency } of notes) {
                 const key = this.keyTemplate.cloneNode(true);
-                key.dataset.frequency = frequency;
+                const { play, stop } = this.createEventHandlers(frequency);
+
                 key.textContent = note;
                 key.classList.add(note.includes('#') ? SHARP_MODIFIER : null);
+                key.onmousedown = play;
+                key.onmouseup = stop;
+
                 this.targetElement.appendChild(key);
             }
+        }
+
+        createEventHandlers(frequency) {
+            let oscillatorNode;
+
+            return {
+                play: () => {
+                    oscillatorNode = this.context.createOscillator();
+                    oscillatorNode.frequency.value = frequency * this.octave;
+                    oscillatorNode.type = 'square';
+                    oscillatorNode.connect(this.context.destination);
+                    oscillatorNode.start();
+                },
+
+                stop: () => oscillatorNode.stop()
+            };
         }
     }
 
