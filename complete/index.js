@@ -9,4 +9,6 @@
 	);
 
 	keyboard.render();
+	keyboard.registerEventHandlers();
+	keyboard.focus();
 }());
