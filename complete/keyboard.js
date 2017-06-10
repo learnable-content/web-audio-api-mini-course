@@ -2,7 +2,10 @@
     'use strict';
 
     const SHARP_MODIFIER = 'keyboard__key--sharp';
+    const TWELTH_ROOT_OF_TWO = 1.059463094359
+    const SEMITONES_PER_OCTAVE = 12;
     const DEFAULT_OCTAVE = 4;
+    const DEFAULT_GAIN = 0.5;
 
     const notes = new Map([
 		['C', 16.35],
@@ -23,8 +26,12 @@
         constructor(targetElement, keyTemplate) {
             this.context = new AudioContext();
             this.targetElement = targetElement;
+            this.keyContainer = targetElement.querySelector('.keyboard__keys');
+            this.gainControl = targetElement.querySelector('.keyboard__control-input--gain');
+            this.octaveControl = targetElement.querySelector('.keyboard__control-input--octave');
             this.keyTemplate = keyTemplate.content.firstElementChild;
             this.octave = DEFAULT_OCTAVE;
+            this.gain = DEFAULT_GAIN;
             this.oscillatorNode = null;
         }
 
@@ -36,19 +43,21 @@
                 key.classList.add(note.includes('#') ? SHARP_MODIFIER : null);
                 key.dataset.frequency = frequency;
 
-                this.targetElement.appendChild(key);
+                this.keyContainer.appendChild(key);
             }
         }
 
         registerEventHandlers() {
-            const { targetElement } = this;
+            const { keyContainer, gainControl, octaveControl } = this;
 
-            targetElement.onmousedown = this.createClickHandler();
-            targetElement.onmouseup = () => this.stop();
-            targetElement.onmouseleave = () => this.stop();
+            keyContainer.onmousedown = this.createKeyClickHandler();
+            keyContainer.onmouseup = () => this.stop();
+            keyContainer.onmouseleave = () => this.stop();
+            gainControl.onchange = this.createGainChangeHandler();
+            octaveControl.onchange = this.createOctaveChangeHandler();
         }
 
-        createClickHandler() {
+        createKeyClickHandler() {
             return event => {
                 if (event.button !== 0) return;
 
@@ -57,19 +66,40 @@
             };
         }
 
+        createGainChangeHandler() {
+            return event => this.gain = this.gainControl.value / 100;
+        }
+
+         createOctaveChangeHandler() {
+            return event => {
+                this.octave = Number.parseInt(this.octaveControl.value) + 1;
+            }
+        }
+
         play(frequency) {
             const oscillatorNode = this.context.createOscillator();
+            const gainNode = this.context.createGain();
 
-            oscillatorNode.frequency.value = frequency * this.octave;
+            oscillatorNode.frequency.value = this.calculateFrequency(frequency);
             oscillatorNode.type = 'square';
-            oscillatorNode.connect(this.context.destination);
+
+            gainNode.gain.value = this.gain;
+
+            oscillatorNode.connect(gainNode);
+            gainNode.connect(this.context.destination);
             oscillatorNode.start();
 
             this.oscillatorNode = oscillatorNode;
         }
 
         stop() {
-            this.oscillatorNode.stop();
+            if (this.oscillatorNode) {
+                this.oscillatorNode.stop();
+            }
+        }
+
+        calculateFrequency(frequency) {
+            return frequency * Math.pow(TWELTH_ROOT_OF_TWO, SEMITONES_PER_OCTAVE * this.octave);
         }
 
         focus() {

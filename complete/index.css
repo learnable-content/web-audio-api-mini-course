@@ -17,4 +17,13 @@
     margin-left: -3.5%;
     position: absolute;
     background: black;
+    color: white;
+}
+
+.keyboard__control {
+    margin-right: 15px;
+}
+
+.keyboard__control-input {
+    vertical-align: middle;
 }
