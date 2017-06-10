@@ -23,8 +23,8 @@
 	]);
 
     class Keyboard {
-        constructor(targetElement, keyTemplate) {
-            this.context = new AudioContext();
+        constructor(context, targetElement, keyTemplate) {
+            this.context = context;
             this.targetElement = targetElement;
             this.keyContainer = targetElement.querySelector('.keyboard__keys');
             this.gainControl = targetElement.querySelector('.keyboard__control-input--gain');
@@ -33,6 +33,9 @@
             this.octave = DEFAULT_OCTAVE;
             this.gain = DEFAULT_GAIN;
             this.oscillatorNode = null;
+
+            this.render();
+            this.registerEventHandlers();
         }
 
         render() {
@@ -101,10 +104,6 @@
 
         calculateFrequency(frequency) {
             return frequency * Math.pow(TWELTH_ROOT_OF_TWO, SEMITONES_PER_OCTAVE * this.octave);
-        }
-
-        focus() {
-            this.targetElement.focus();
         }
     }
 
