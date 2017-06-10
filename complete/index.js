@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 
-	const { Keyboard, Drums } = window.APP;
+	const { Keyboard, Drums, Recorder } = window.APP;
 	const context = new AudioContext();
 
 	const keyboard = new Keyboard(
@@ -14,5 +14,11 @@
 		context,
 		document.body.querySelector('.drums'),
 		document.body.querySelector('#drum-loop-template')
+	);
+
+	const recorder = new Recorder(
+		document.body.querySelector('.recorder'),
+		keyboard,
+		drums
 	);
 }());

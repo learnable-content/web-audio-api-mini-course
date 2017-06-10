@@ -65,3 +65,14 @@ button:hover {
     background: white;
     border: 1px solid black;
 }
+
+.recorder__progress {
+    height: 25px;
+    background: black;
+}
+
+.recorder__progress-bar {
+    width: 0;
+    height: 100%;
+    background: lightgreen;
+}
