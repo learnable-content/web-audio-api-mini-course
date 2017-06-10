@@ -19,21 +19,6 @@
 		['B', 30.87]
 	]);
 
-    const keyBindings = new Map([
-        ['a', 'C'],
-		['w', 'C#'],
-		['d', 'D'],
-		['r', 'D#'],
-		['f', 'E'],
-		['g', 'F'],
-		['y', 'F#'],
-		['h', 'G'],
-		['u', 'G#'],
-		['k', 'A'],
-		['o', 'A#'],
-		['l', 'B']
-    ]);
-
     class Keyboard {
         constructor(targetElement, keyTemplate) {
             this.context = new AudioContext();
@@ -60,28 +45,14 @@
 
             targetElement.onmousedown = this.createClickHandler();
             targetElement.onmouseup = () => this.stop();
-            targetElement.onkeydown = this.createKeyHandler();
-            targetElement.onkeyup = () => this.stop();
+            targetElement.onmouseleave = () => this.stop();
         }
 
         createClickHandler() {
             return event => {
+                if (event.button !== 0) return;
+
                 const { frequency } = event.target.dataset;
-                this.play(frequency);
-            };
-        }
-
-        createKeyHandler() {
-            return event => {
-                const { key } = event;
-
-                if (!keyBindings.has(key)) {
-                    return;
-                }
-
-                const note = keyBindings.get(key);
-                const frequency = notes.get(note);
-
                 this.play(frequency);
             };
         }
