@@ -5,24 +5,33 @@
 		<title>Final App</title>
 		<link rel="stylesheet" href="index.css" />
 	</head>
-	<body>
-		<section class="keyboard">
-			<div class="keyboard__keys">
-			</div>
+	<body role="main" class="app">
+		<h1 class="title">Music Box</h1>
 
-			<label class="keyboard__control">
-				Gain
-				<input type="range" class="keyboard__control-input keyboard__control-input--gain" />
-			</label>
+		<div class="instruments">
+			<section class="keyboard">
+				<h2 class="title">Synth</h2>
+				<div class="keyboard__keys">
+				</div>
 
-			<label class="keyboard__control">
-				Octave
-				<input type="range" class="keyboard__control-input keyboard__control-input--octave" min="0" max="8" step="1" value="3" />
-			</label>
-		</section>
+				<label class="keyboard__control">
+					Gain
+					<input type="range" class="keyboard__control-input keyboard__control-input--gain" />
+				</label>
 
-		<section class="drums">
-		</section>
+				<label class="keyboard__control">
+					Octave
+					<input type="range" class="keyboard__control-input keyboard__control-input--octave" min="0" max="8" step="1" />
+				</label>
+			</section>
+
+			<section class="drums">
+				<h2 class="title">Drum Loops</h2>
+
+				<div class="drums__samples">
+				</div>
+			</section>
+		</div>
 
 		<template id="key-template">
 			<button class="keyboard__key">

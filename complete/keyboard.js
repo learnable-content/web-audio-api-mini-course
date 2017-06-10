@@ -5,7 +5,7 @@
     const TWELTH_ROOT_OF_TWO = 1.059463094359
     const SEMITONES_PER_OCTAVE = 12;
     const DEFAULT_OCTAVE = 4;
-    const DEFAULT_GAIN = 0.5;
+    const DEFAULT_GAIN = 0.1;
 
     const notes = new Map([
 		['C', 16.35],
@@ -34,8 +34,13 @@
             this.gain = DEFAULT_GAIN;
             this.oscillatorNode = null;
 
+            this.initControls();
             this.render();
             this.registerEventHandlers();
+        }
+
+        initControls() {
+            this.gainControl.value = DEFAULT_GAIN * 100;
         }
 
         render() {

@@ -1,11 +1,37 @@
+button:hover {
+    cursor: pointer;
+}
+
+.app {
+    background: #303030;
+    color: white;
+    font-family: sans-serif;
+}
+
+.title {
+    text-align: center;
+}
+
+.instruments {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+@media (min-width: 780px) {
+    .instruments {
+        flex-direction: row;
+    }
+}
+
 .keyboard {
     position: relative;
-    width: 80%;
     max-width: 495px;
 }
 
 .keyboard__key {
-    width: 12.5%;
+    width: 14.285%;
     height: 250px;
     background: white;
     border: 1px solid black;
@@ -13,8 +39,8 @@
 
 .keyboard__key--sharp {
     height: 150px;
-    width: 7%;
-    margin-left: -3.5%;
+    width: 8%;
+    margin-left: -4%;
     position: absolute;
     background: black;
     color: white;
@@ -26,4 +52,16 @@
 
 .keyboard__control-input {
     vertical-align: middle;
+}
+
+.drums__samples {
+    display: flex;
+    flex-wrap: wrap;
+    height: 200px;
+}
+
+.drums__loop {
+    width: 50%;
+    background: white;
+    border: 1px solid black;
 }

@@ -14,6 +14,7 @@
         constructor(context, targetElement, itemTemplate) {
             this.context = context;
             this.targetElement = targetElement;
+            this.itemsContainer = targetElement.querySelector('.drums__samples');
             this.itemTemplate = itemTemplate.content.firstElementChild;
             this.sourceNode = null;
 
@@ -56,7 +57,7 @@
                 item.textContent = name;
                 item.onclick = () => this.play(loop);
 
-                this.targetElement.appendChild(item);
+                this.itemsContainer.appendChild(item);
             }
         }
 
