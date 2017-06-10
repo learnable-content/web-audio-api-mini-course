@@ -40,8 +40,9 @@
                 const key = this.keyTemplate.cloneNode(true);
 
                 key.textContent = note;
-                key.classList.add(note.includes('#') ? SHARP_MODIFIER : null);
                 key.dataset.frequency = frequency;
+
+                if (note.includes('#')) key.classList.add(SHARP_MODIFIER);
 
                 this.keyContainer.appendChild(key);
             }
