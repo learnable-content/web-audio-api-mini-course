@@ -1,22 +1,49 @@
 (function () {
     'use strict';
 
-    const RECORDING_DURATION_SECONDS = 10;
+    const { MediaStreamCapturer } = window.APP;
+
+    const RECORD_TEXT = 'Record';
+    const STOP_TEXT = 'Stop';
 
     class Recorder {
-        constructor(targetElement, ...sources) {
-            this.targetElement = targetElement;
-            this.progressBar = targetElement.querySelector('.recorder__progress-bar');
+        constructor(context, button, ...sources) {
+            this.context = context;
+            this.button = button;
             this.sources = sources;
 
-            this.animateProgressBar();
+            button.textContent = RECORD_TEXT;
+            button.onclick = () => this.record();
         }
 
-        animateProgressBar() {
-            this.progressBar.animate(
-                [{ width: 0 }, { width: '100%' }],
-                RECORDING_DURATION_SECONDS * 1000
-            );
+        record() {
+            this.prepareUiForStopping();
+
+            const destination = this.context.createMediaStreamDestination();
+            const mediaStreamCapturer = new MediaStreamCapturer(destination.stream);
+
+            for (let source of this.sources) {
+                source.connect(destination);
+            }
+
+            const stopRecording = mediaStreamCapturer.start();
+            this.prepareForRecordingEnd(stopRecording);
+        }
+
+        prepareUiForRecording() {
+            this.button.textContent = RECORD_TEXT;
+        }
+
+        prepareUiForStopping() {
+            this.button.textContent = STOP_TEXT;
+        }
+
+        prepareForRecordingEnd(stopRecording) {
+            this.button.onclick = () => {
+                const recordingUrl = stopRecording();
+                this.prepareUiForRecording();
+                document.location.href = recordingUrl;
+            };
         }
     }
 

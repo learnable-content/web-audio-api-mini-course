@@ -69,6 +69,11 @@ button:hover {
 .recorder__progress {
     height: 25px;
     background: black;
+    display: none;
+}
+
+.recorder__progress--active {
+    display: block;
 }
 
 .recorder__progress-bar {

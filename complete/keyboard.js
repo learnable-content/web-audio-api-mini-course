@@ -7,6 +7,8 @@
     const DEFAULT_OCTAVE = 4;
     const DEFAULT_GAIN = 0.1;
 
+    const { RecordableSource } = window.APP;
+
     const notes = new Map([
 		['C', 16.35],
 		['C#', 17.32],
@@ -22,8 +24,10 @@
 		['B', 30.87]
 	]);
 
-    class Keyboard {
+    class Keyboard extends RecordableSource {
         constructor(context, targetElement, keyTemplate) {
+            super();
+
             this.context = context;
             this.targetElement = targetElement;
             this.keyContainer = targetElement.querySelector('.keyboard__keys');
@@ -32,7 +36,7 @@
             this.keyTemplate = keyTemplate.content.firstElementChild;
             this.octave = DEFAULT_OCTAVE;
             this.gain = DEFAULT_GAIN;
-            this.oscillatorNode = null;
+            this.sourceNode = null;
 
             this.initControls();
             this.render();
@@ -99,12 +103,12 @@
             gainNode.connect(this.context.destination);
             oscillatorNode.start();
 
-            this.oscillatorNode = oscillatorNode;
+            this.sourceNode = oscillatorNode;
         }
 
         stop() {
-            if (this.oscillatorNode) {
-                this.oscillatorNode.stop();
+            if (this.sourceNode) {
+                this.sourceNode.stop();
             }
         }
 

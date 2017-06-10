@@ -3,6 +3,8 @@
 
     const BASE_LOOPS_URL = 'https://raw.githubusercontent.com/learnable-content/jamesseanwright/master/files/web-audio-series/{key}.mp3';
 
+    const { RecordableSource } = window.APP;
+
     const loopKeys = [
         { key: 'bossa-nova', name: 'Bossa Nova' },
         { key: 'electro', name: 'Electro' },
@@ -10,8 +12,10 @@
         { key: 'speedy', name: 'Speedy' }
     ];
 
-    class Drums {
+    class Drums extends RecordableSource {
         constructor(context, targetElement, itemTemplate) {
+            super();
+
             this.context = context;
             this.targetElement = targetElement;
             this.itemsContainer = targetElement.querySelector('.drums__samples');
