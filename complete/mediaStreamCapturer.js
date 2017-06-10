@@ -15,7 +15,7 @@
 
             return function stop() {
                 mediaRecorder.stop();
-                return URL.createObjectURL(new Blob(data));
+                return new Blob(data, { type: 'audio/ogg; codecs=opus' });
             };
         }
     }

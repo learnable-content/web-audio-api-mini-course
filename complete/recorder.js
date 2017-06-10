@@ -7,13 +7,16 @@
     const STOP_TEXT = 'Stop';
 
     class Recorder {
-        constructor(context, button, ...sources) {
+        constructor(context, container, mediaTemplate, ...sources) {
             this.context = context;
-            this.button = button;
+            this.container = container;
+            this.mediaTemplate = mediaTemplate.content.firstElementChild;
+            this.recordingsContainer = container.querySelector('.recorder__recordings');
+            this.button = container.querySelector('.recorder__record');
             this.sources = sources;
 
-            button.textContent = RECORD_TEXT;
-            button.onclick = () => this.record();
+            this.button.textContent = RECORD_TEXT;
+            this.button.onclick = () => this.record();
         }
 
         record() {
@@ -40,10 +43,16 @@
 
         prepareForRecordingEnd(stopRecording) {
             this.button.onclick = () => {
-                const recordingUrl = stopRecording();
+                const blob = stopRecording();
+                this.createMediaElementForBlob(blob);
                 this.prepareUiForRecording();
-                document.location.href = recordingUrl;
             };
+        }
+
+        createMediaElementForBlob(blob) {
+            const mediaElement = this.mediaTemplate.cloneNode(true);
+            mediaElement.src = URL.createObjectURL(blob);
+            this.recordingsContainer.appendChild(mediaElement);
         }
     }
 

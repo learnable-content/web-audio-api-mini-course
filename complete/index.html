@@ -33,7 +33,10 @@
 			</section>
 		</div>
 
-		<button class="record"></button>
+		<section class="recorder">
+			<div class="recorder__recordings"></div>
+			<button class="recorder__record"></button>
+		</section>
 
 		<template id="key-template">
 			<button class="keyboard__key">
@@ -43,6 +46,10 @@
 		<template id="drum-loop-template">
 			<button class="drums__loop">
 			</button>
+		</template>
+
+		<template id="recording-template">
+			<audio class="recorder__recording" />
 		</template>
 
 		<script src="namespace.js"></script>

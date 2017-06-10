@@ -18,7 +18,8 @@
 
 	const recorder = new Recorder(
 		context,
-		document.body.querySelector('.record'),
+		document.body.querySelector('.recorder'),
+		document.body.querySelector('#recording-template'),
 		keyboard,
 		drums
 	);
