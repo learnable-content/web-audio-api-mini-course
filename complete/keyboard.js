@@ -63,9 +63,10 @@
 
         createKeyClickHandler() {
             return event => {
-                if (event.button !== 0) return;
-
                 const { frequency } = event.target.dataset;
+
+                if (event.button !== 0 || !frequency) return;
+
                 this.play(frequency);
             };
         }

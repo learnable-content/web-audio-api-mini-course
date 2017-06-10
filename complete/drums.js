@@ -14,7 +14,8 @@
         constructor(context, targetElement, itemTemplate) {
             this.context = context;
             this.targetElement = targetElement;
-            this.itemTemplate = itemTemplate;
+            this.itemTemplate = itemTemplate.content.firstElementChild;
+            this.sourceNode = null;
 
             this.fetchLoops()
                 .then(loops => this.decodeLoops(loops))
@@ -42,13 +43,34 @@
         }
 
         bindLoops(loops) {
-            this.loops = loops.map((loop, i) => Object.assign({}, loopKeys[i], {
-                loop
-            }));
+            this.loops = loops.map((loop, i) => Object.assign(
+                {},
+                loopKeys[i], { loop }
+            ));
         }
 
         render() {
-            console.log(this.loops);
+            for (let { key, name, loop } of this.loops) {
+                const item = this.itemTemplate.cloneNode(true);
+
+                item.textContent = name;
+                item.onclick = () => this.play(loop);
+
+                this.targetElement.appendChild(item);
+            }
+        }
+
+        play(loop) {
+            if (this.sourceNode) this.sourceNode.stop();
+
+            const sourceNode = this.context.createBufferSource();
+            sourceNode.buffer = loop;
+            sourceNode.loop = true;
+
+            sourceNode.connect(this.context.destination);
+            sourceNode.start();
+
+            this.sourceNode = sourceNode;
         }
     }
 
