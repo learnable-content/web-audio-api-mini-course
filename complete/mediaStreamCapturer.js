@@ -52,7 +52,7 @@
         convertToArrayBuffer(result) {
             const url = URL.createObjectURL(new Blob(result, { type: MIME_TYPE }));
 
-            return window.fetch(url).then(response => response.arrayBuffer());
+            return fetch(url).then(response => response.arrayBuffer());
         }
 
         stop() {
