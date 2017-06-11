@@ -21,10 +21,13 @@
         record() {
             this.prepareUiForStopping();
 
-            const mediaStreamCapturer = new MediaStreamCapturer(...this.sources);
+            const mediaStreamCapturer = new MediaStreamCapturer(
+                this.context,
+                ...this.sources
+            );
 
             mediaStreamCapturer.start().then(
-                blob => this.createMediaElementForBlob(blob)
+                audioBuffers => this.mergeAudioBuffers(audioBuffersblob)
             );
 
             this.button.onclick = () => {
@@ -40,6 +43,10 @@
 
         prepareUiForStopping() {
             this.button.textContent = STOP_TEXT;
+        }
+
+        mergeAudioBuffers(audioBuffers) {
+
         }
 
         createMediaElementForBlob(blob) {

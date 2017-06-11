@@ -2,31 +2,49 @@
     'use strict';
 
     class MediaStreamCapturer {
-        constructor(...sources) {
-            const mediaStream = new MediaStream(
-                sources.map(source => source.track)
+        constructor(context, ...sources) {
+            const mediaStreams = sources.map(source => new MediaStream(source.stream));
+
+            this.mediaRecorders = mediaStreams.map(
+                stream => new MediaRecorder(stream, { type: 'audio/webm' })
             );
 
-            console.log(mediaStream);
-
-            this.mediaRecorder = new MediaRecorder(mediaStream);
+            this.context = context;
             this.hasStopped = false;
         }
 
         start() {
+            const results = [];
             this.hasStopped = false;
 
             return new Promise(resolve => {
                 const data = [];
+                results.push(data);
 
-                this.mediaRecorder.ondataavailable = e => {
-                    data.push(e.data);
+                for (let recorder of this.mediaRecorders) {
+                    recorder.ondataavailable = e => {
+                        data.push(e.data);
 
-                    if (this.hasStopped) resolve(new Blob(data));
+                        if (this.hasStopped) onRecordingEnd(results, resolve);
+                    }
+
+                    recorder.start();
                 }
-
-                this.mediaRecorder.start();
             });
+        }
+
+        onRecordingEnd(results, resolve) {
+            const arrayBufferPromises = Promise.all(
+                results.map(this.convertToArrayBuffer)
+            );
+
+            return arrayBufferPromises
+                .then(
+                    buffers => buffers.map(
+                        buffer => this.context.decodeAudioData(buffer)
+                    )
+                )
+                .then(resolve);
         }
 
         convertToArrayBuffer(result) {
@@ -36,7 +54,10 @@
         }
 
         stop() {
-            this.mediaRecorder.stop();
+            for (let recorder of this.mediaRecorders) {
+                recorder.stop();
+            }
+
             this.hasStopped = true;
         }
     }
