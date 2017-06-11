@@ -26,9 +26,11 @@
                 ...this.sources
             );
 
-            mediaStreamCapturer.start().then(
-                audioBuffers => this.mergeAudioBuffers(audioBuffersblob)
-            );
+            mediaStreamCapturer.start()
+                .then(
+                    audioBuffers => this.mergeAudioBuffers(audioBuffers)
+                )
+                .then(mergedNode => this.createMediaElement(mergedNode));
 
             this.button.onclick = () => {
                 mediaStreamCapturer.stop();
@@ -46,10 +48,20 @@
         }
 
         mergeAudioBuffers(audioBuffers) {
+            // TODO: create Recording abstraction
 
+            const mergeNode = this.context.createChannelMerger(audioBuffers.length);
+
+            for (let audioBuffer of audioBuffers) {
+                const bufferSource = this.context.createBufferSource();
+                bufferSource.buffer = audioBuffer;
+                bufferSource.connect(mergeNode)
+            }
+
+            return mergeNode;
         }
 
-        createMediaElementForBlob(blob) {
+        createMediaElement(mergedNode) {
             const mediaElement = this.mediaTemplate.cloneNode(true);
             mediaElement.src = URL.createObjectURL(blob);
             this.recordingsContainer.appendChild(mediaElement);

@@ -3,7 +3,7 @@
 
     class MediaStreamCapturer {
         constructor(context, ...sources) {
-            const mediaStreams = sources.map(source => new MediaStream(source.stream));
+            const mediaStreams = sources.map(source => source.stream);
 
             this.mediaRecorders = mediaStreams.map(
                 stream => new MediaRecorder(stream, { type: 'audio/webm' })
