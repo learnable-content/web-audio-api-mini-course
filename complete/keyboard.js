@@ -111,6 +111,10 @@
             if (this.sourceNode) {
                 this.sourceNode.stop();
             }
+
+            /* we need to play a rest note so that the recorded
+             * notes are captured at the correct time. */
+            this.play(0);
         }
 
         calculateFrequency(frequency) {
