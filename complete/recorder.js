@@ -22,15 +22,16 @@
         record() {
             this.prepareUiForStopping();
 
-            const destination = this.context.createMediaStreamDestination();
-            const mediaStreamCapturer = new MediaStreamCapturer(destination.stream);
+            const mediaStreamCapturer = new MediaStreamCapturer(...this.sources);
 
-            for (let source of this.sources) {
-                source.connect(destination);
-            }
+            mediaStreamCapturer.start().then(
+                blob => this.createMediaElementForBlob(blob)
+            );
 
-            const stopRecording = mediaStreamCapturer.start();
-            this.prepareForRecordingEnd(stopRecording);
+            this.button.onclick = () => {
+                mediaStreamCapturer.stop();
+                this.button.textContent = RECORD_TEXT;
+            };
         }
 
         prepareUiForRecording() {
@@ -41,15 +42,8 @@
             this.button.textContent = STOP_TEXT;
         }
 
-        prepareForRecordingEnd(stopRecording) {
-            this.button.onclick = () => {
-                const blob = stopRecording();
-                this.createMediaElementForBlob(blob);
-                this.prepareUiForRecording();
-            };
-        }
-
         createMediaElementForBlob(blob) {
+            console.log(blob);
             const mediaElement = this.mediaTemplate.cloneNode(true);
             mediaElement.src = URL.createObjectURL(blob);
             this.recordingsContainer.appendChild(mediaElement);

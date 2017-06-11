@@ -1,3 +1,8 @@
+button {
+    background: white;
+    border: 1px solid black;
+}
+
 button:hover {
     cursor: pointer;
 }
@@ -33,8 +38,6 @@ button:hover {
 .keyboard__key {
     width: 14.285%;
     height: 250px;
-    background: white;
-    border: 1px solid black;
 }
 
 .keyboard__key--sharp {
@@ -62,8 +65,11 @@ button:hover {
 
 .drums__loop {
     width: 50%;
-    background: white;
-    border: 1px solid black;
+}
+
+.drums__stop {
+    width: 100%;
+    height: 75px;
 }
 
 .recorder__progress {

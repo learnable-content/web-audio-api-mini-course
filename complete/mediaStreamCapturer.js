@@ -2,21 +2,30 @@
     'use strict';
 
     class MediaStreamCapturer {
-        constructor(mediaStream) {
-            this.mediaStream = mediaStream;
+        constructor(...sources) {
+            const mediaStreams = sources.map(source => new MediaStream(source.stream));
+
+            this.mediaRecorders = mediaStreams.map(
+                stream => new MediaRecorder(stream, { type: 'audio/webm' })
+            );
         }
 
         start() {
-            const mediaRecorder = new MediaRecorder(this.mediaStream);
-            const data = [];
+            return new Promise(resolve => {
+                const data = [];
 
-            mediaRecorder.ondataavailable = e => e.data.size && data.push(e.data);
-            mediaRecorder.start();
+                for (let recorder of this.mediaRecorders) {
+                    recorder.ondataavailable = e => console.log(e) || data.push(e.data);
+                    recorder.onstop = () => resolve(new Blob(data));
+                    recorder.start();
+                }
+            });
+        }
 
-            return function stop() {
-                mediaRecorder.stop();
-                return new Blob(data, { type: 'audio/ogg; codecs=opus' });
-            };
+        stop() {
+            for (let recorder of this.mediaRecorders) {
+                recorder.stop();
+            }
         }
     }
 

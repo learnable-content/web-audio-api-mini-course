@@ -2,10 +2,16 @@
     'use strict';
 
     class RecordableSource{
-        connect(targetNode) {
-            if (this.sourceNode) {
-                this.sourceNode.connect(targetNode);
-            }
+        constructor(context) {
+            this.destination = context.createMediaStreamDestination();
+        }
+
+        enableRecording(node) {
+            node.connect(this.destination);
+        }
+
+        get stream() {
+            return this.destination.stream;
         }
     }
 

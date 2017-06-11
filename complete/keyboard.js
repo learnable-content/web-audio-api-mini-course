@@ -26,7 +26,7 @@
 
     class Keyboard extends RecordableSource {
         constructor(context, targetElement, keyTemplate) {
-            super();
+            super(context);
 
             this.context = context;
             this.targetElement = targetElement;
@@ -104,6 +104,7 @@
             oscillatorNode.start();
 
             this.sourceNode = oscillatorNode;
+            this.enableRecording(gainNode);
         }
 
         stop() {

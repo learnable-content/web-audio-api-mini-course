@@ -14,18 +14,25 @@
 
     class Drums extends RecordableSource {
         constructor(context, targetElement, itemTemplate) {
-            super();
+            super(context);
 
             this.context = context;
             this.targetElement = targetElement;
             this.itemsContainer = targetElement.querySelector('.drums__samples');
+            this.stopButton = targetElement.querySelector('.drums__stop');
             this.itemTemplate = itemTemplate.content.firstElementChild;
             this.sourceNode = null;
+
+            this.registerEventHandlers();
 
             this.fetchLoops()
                 .then(loops => this.decodeLoops(loops))
                 .then(loops => this.bindLoops(loops))
                 .then(() => this.render());
+        }
+
+        registerEventHandlers() {
+            this.stopButton.onclick = () => this.stop();
         }
 
         fetchLoops() {
@@ -76,6 +83,11 @@
             sourceNode.start();
 
             this.sourceNode = sourceNode;
+            this.enableRecording(sourceNode);
+        }
+
+        stop() {
+            this.sourceNode.stop();
         }
     }
 
