@@ -1,0 +1,19 @@
+.drums__samples {
+    display: flex;
+    flex-wrap: wrap;
+    height: 200px;
+}
+
+.drums__loop {
+    width: 50%;
+}
+
+.drums__stop {
+    width: 100%;
+}
+
+@media (min-width: 720px) {
+    .drums {
+        align-self: flex-end;
+    }
+}
