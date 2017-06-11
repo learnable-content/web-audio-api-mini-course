@@ -1,0 +1,34 @@
+.keyboard {
+    position: relative;
+}
+
+.keyboard__key {
+    width: 14.285%;
+    height: 250px;
+}
+
+.keyboard__key--sharp {
+    height: 150px;
+    width: 8%;
+    margin-left: -4%;
+    position: absolute;
+    background: black;
+    color: white;
+}
+
+.keyboard__control {
+    margin-right: 15px;
+}
+
+.keyboard__control-input {
+    margin: 0;
+    vertical-align: middle;
+    width: 30%;
+}
+
+@media (min-width: 720px) {
+    .keyboard {
+        max-width: 495px;
+        align-self: flex-start;
+    }
+}

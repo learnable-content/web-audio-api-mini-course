@@ -1,0 +1,37 @@
+button {
+    background: white;
+    border: 1px solid black;
+    min-height: 75px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.app {
+    background: #303030;
+    color: white;
+    font-family: sans-serif;
+    margin: 0 5px;
+}
+
+.title {
+    text-align: center;
+}
+
+.instruments {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media (min-width: 720px) {
+    .app {
+        margin: 0 auto;
+        width: 90%;
+    }
+
+    .instruments {
+        flex-direction: row;
+    }
+}

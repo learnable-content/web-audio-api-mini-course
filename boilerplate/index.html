@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Final App</title>
+		<link rel="stylesheet" href="index.css" />
+		<link rel="stylesheet" href="drums/drums.css" />
+		<link rel="stylesheet" href="keyboard/keyboard.css" />
+		<link rel="stylesheet" href="recording/recorder.css" />
+	</head>
+	<body role="main" class="app">
+		<h1 class="title">Music Box</h1>
+
+		<div class="instruments">
+			<section class="keyboard">
+				<h2 class="title">Synth</h2>
+				<div class="keyboard__keys">
+				</div>
+
+				<label class="keyboard__control">
+					Gain
+					<input type="range" class="keyboard__control-input keyboard__control-input--gain" />
+				</label>
+
+				<label class="keyboard__control">
+					Octave
+					<input type="range" class="keyboard__control-input keyboard__control-input--octave" min="0" max="8" step="1" />
+				</label>
+			</section>
+
+			<section class="drums">
+				<h2 class="title">Drum Loops</h2>
+
+				<div class="drums__samples">
+				</div>
+
+				<button class="drums__stop">Stop</button>
+			</section>
+		</div>
+
+		<section class="recorder">
+			<h2 class="title">My Recordings</h2>
+			<button class="recorder__record"></button>
+			<div class="recorder__recordings"></div>
+		</section>
+
+		<template id="key-template">
+			<button class="keyboard__key">
+			</button>
+		</template>
+
+		<template id="drum-loop-template">
+			<button class="drums__loop">
+			</button>
+		</template>
+
+		<template id="recording-template">
+			<button class="recorder__recording">
+			</button>
+		</template>
+
+		<script src="namespace.js"></script>
+		<script src="recording/recordableSource.js"></script>
+		<script src="keyboard/keyboard.js"></script>
+		<script src="drums/drums.js"></script>
+		<script src="recording/mediaStreamCapturer.js"></script>
+		<script src="recording/recording.js"></script>
+		<script src="recording/recorder.js"></script>
+		<script src="index.js"></script>
+	</body>
+</html>
