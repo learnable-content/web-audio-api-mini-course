@@ -43,7 +43,6 @@
         }
 
         createMediaElementForBlob(blob) {
-            console.log(blob);
             const mediaElement = this.mediaTemplate.cloneNode(true);
             mediaElement.src = URL.createObjectURL(blob);
             this.recordingsContainer.appendChild(mediaElement);

@@ -10,8 +10,8 @@
             node.connect(this.destination);
         }
 
-        get stream() {
-            return this.destination.stream;
+        get track() {
+            return this.destination.stream.getAudioTracks()[0];
         }
     }
 

@@ -3,12 +3,13 @@
 
     class MediaStreamCapturer {
         constructor(...sources) {
-            const mediaStreams = sources.map(source => new MediaStream(source.stream));
-
-            this.mediaRecorders = mediaStreams.map(
-                stream => new MediaRecorder(stream, { type: 'audio/webm' })
+            const mediaStream = new MediaStream(
+                sources.map(source => source.track)
             );
 
+            console.log(mediaStream);
+
+            this.mediaRecorder = new MediaRecorder(mediaStream);
             this.hasStopped = false;
         }
 
@@ -18,23 +19,24 @@
             return new Promise(resolve => {
                 const data = [];
 
-                for (let recorder of this.mediaRecorders) {
-                    recorder.ondataavailable = e => {
-                        data.push(e.data);
+                this.mediaRecorder.ondataavailable = e => {
+                    data.push(e.data);
 
-                        if (this.hasStopped) resolve(new Blob(data));
-                    }
-
-                    recorder.start();
+                    if (this.hasStopped) resolve(new Blob(data));
                 }
+
+                this.mediaRecorder.start();
             });
         }
 
-        stop() {
-            for (let recorder of this.mediaRecorders) {
-                recorder.stop();
-            }
+        convertToArrayBuffer(result) {
+            const url = URL.createObjectURL(new Blob(result));
 
+            return window.fetch(url).then(response => response.arrayBuffer());
+        }
+
+        stop() {
+            this.mediaRecorder.stop();
             this.hasStopped = true;
         }
     }
