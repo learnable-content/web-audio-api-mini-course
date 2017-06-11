@@ -22,11 +22,10 @@ button:hover {
 .instruments {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: space-between;
 }
 
-@media (min-width: 780px) {
+@media (min-width: 720px) {
     .app {
         margin: 0 auto;
         width: 90%;
@@ -36,6 +35,15 @@ button:hover {
         flex-direction: row;
     }
 
+    .keyboard {
+        max-width: 495px;
+        align-self: flex-start;
+    }
+
+    .drums {
+        align-self: flex-end;
+    }
+
     .recorder {
         margin-top: 50px;
     }
@@ -43,7 +51,6 @@ button:hover {
 
 .keyboard {
     position: relative;
-    max-width: 495px;
 }
 
 .keyboard__key {
@@ -65,7 +72,9 @@ button:hover {
 }
 
 .keyboard__control-input {
+    margin: 0;
     vertical-align: middle;
+    width: 30%;
 }
 
 .drums__samples {

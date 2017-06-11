@@ -1,12 +1,14 @@
 (function () {
     'use strict';
 
+    const MIME_TYPE = 'audio/webm; codecs=opus';
+
     class MediaStreamCapturer {
         constructor(context, ...sources) {
             const mediaStreams = sources.map(source => source.stream);
 
             this.mediaRecorders = mediaStreams.map(
-                stream => new MediaRecorder(stream, { type: 'audio/webm' })
+                stream => new MediaRecorder(stream, { type: MIME_TYPE })
             );
 
             this.context = context;
@@ -48,7 +50,7 @@
         }
 
         convertToArrayBuffer(result) {
-            const url = URL.createObjectURL(new Blob(result));
+            const url = URL.createObjectURL(new Blob(result, { type: MIME_TYPE }));
 
             return window.fetch(url).then(response => response.arrayBuffer());
         }

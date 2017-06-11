@@ -5,7 +5,6 @@
         constructor(context, audioBuffers, recordingTemplate, recordingsContainer) {
             this.context = context;
             this.audioBuffers = audioBuffers;
-            console.log(audioBuffers);
             this.recordingTemplate = recordingTemplate;
             this.recordingsContainer = recordingsContainer;
 
