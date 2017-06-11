@@ -18,14 +18,16 @@
             this.hasStopped = false;
 
             return new Promise(resolve => {
-                const data = [];
-                results.push(data);
-
                 for (let recorder of this.mediaRecorders) {
+                    const data = [];
+                    results.push(data);
+
                     recorder.ondataavailable = e => {
                         data.push(e.data);
 
-                        if (this.hasStopped) onRecordingEnd(results, resolve);
+                        if (this.hasStopped) {
+                            this.onRecordingEnd(results, resolve);
+                        }
                     }
 
                     recorder.start();
@@ -39,11 +41,9 @@
             );
 
             return arrayBufferPromises
-                .then(
-                    buffers => buffers.map(
-                        buffer => this.context.decodeAudioData(buffer)
-                    )
-                )
+                .then(buffers => Promise.all(buffers.map(
+                    buffer => this.context.decodeAudioData(buffer)
+                )))
                 .then(resolve);
         }
 
