@@ -15,8 +15,7 @@
             this.button = container.querySelector('.recorder__record');
             this.sources = sources;
 
-            this.button.textContent = RECORD_TEXT;
-            this.button.onclick = () => this.record();
+            this.prepareUiForRecording();
         }
 
         record() {
@@ -30,12 +29,13 @@
 
             this.button.onclick = () => {
                 mediaStreamCapturer.stop();
-                this.button.textContent = RECORD_TEXT;
+                this.prepareUiForRecording();
             };
         }
 
         prepareUiForRecording() {
             this.button.textContent = RECORD_TEXT;
+            this.button.onclick = () => this.record();
         }
 
         prepareUiForStopping() {
