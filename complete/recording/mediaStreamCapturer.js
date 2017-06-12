@@ -12,12 +12,11 @@
             );
 
             this.context = context;
-            this.hasStopped = false;
         }
 
         start() {
             const results = [];
-            this.hasStopped = false;
+            let hasStopped = false;
 
             return new Promise(resolve => {
                 for (let recorder of this.mediaRecorders) {
@@ -27,10 +26,13 @@
                     recorder.ondataavailable = e => {
                         data.push(e.data);
 
-                        if (this.hasStopped) {
+                        if (hasStopped) {
                             this.onRecordingEnd(results, resolve);
+                            hasStopped = false;
                         }
                     }
+
+                    recorder.onstop = () => hasStopped = true;
 
                     recorder.start();
                 }
@@ -63,8 +65,6 @@
             for (let recorder of this.mediaRecorders) {
                 recorder.stop();
             }
-
-            this.hasStopped = true;
         }
     }
 
