@@ -30,6 +30,7 @@ button:hover {
     .app {
         margin: 0 auto;
         width: 90%;
+        max-width: 870px;
     }
 
     .instruments {
