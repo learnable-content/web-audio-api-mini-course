@@ -50,9 +50,13 @@
         }
 
         convertToArrayBuffer(result) {
-            const url = URL.createObjectURL(new Blob(result, { type: MIME_TYPE }));
+            return new Promise(resolve => {
+                const blob = new Blob(result, { type: MIME_TYPE });
+                const fileReader = new FileReader();
 
-            return fetch(url).then(response => response.arrayBuffer());
+                fileReader.onload = e => resolve(e.target.result);
+                fileReader.readAsArrayBuffer(blob);
+            });
         }
 
         stop() {
