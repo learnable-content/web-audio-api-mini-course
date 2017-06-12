@@ -22,7 +22,7 @@
         }
 
         play() {
-            const mergeNode = this.context.createChannelMerger(this.audioBuffers.length);
+            const mergeNode = this.context.createChannelMerger(1);
 
             mergeNode.connect(this.context.destination);
 
