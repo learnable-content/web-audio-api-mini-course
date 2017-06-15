@@ -19,6 +19,15 @@ Provided by archive.org member [revolution_void](https://archive.org/details/@re
 
 Provided by [Voxengo](http://www.voxengo.com/)
 
+## Drum Loops
+
+* Bossa Nova
+* Electro
+* Funky
+* Speedy
+
+Provided by [Orange Free Sounds], distributed under the [Creative Commons Attribution 4.0 license](https://creativecommons.org/licenses/by/4.0/).
+
 ### License
 
 All impulses in this archive were created with Impulse Modeler that can be downloaded at http://www.voxengo.com/imodeler/
